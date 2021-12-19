@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,19 +21,15 @@ public class MainActivity extends AppCompatActivity {
     int correctAnswer;
     int score=0;
     int numberOfQuestions=0;
-    TextView resultTextView;
-    TextView scoreTextView;
-    TextView text;
+    TextView resultTextView, scoreTextView, award, text;
     GridLayout grid;
-    Button button0;
-    Button button1;
-    Button button2;
-    Button button3;
+    Button button0, button1, button2, button3, playAgain;
     Random rand;
     TextView timerText;
-    Button playAgain;
+
+
     int buttonWithAnswer=0;
-    ConstraintLayout myGame;
+    LinearLayout myGame, repeat;
 
 
 
@@ -41,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         goButton.setVisibility(v.INVISIBLE);
         myGame.setVisibility(View.VISIBLE);
         replay(findViewById(R.id.timer));
+        timerText.setText("30 s");
 
     }
     public void newQuestion(){
@@ -90,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         myGame=findViewById(R.id.game);
         playAgain=findViewById(R.id.playAgain);
         grid=findViewById(R.id.gridLayout);
+        repeat=findViewById(R.id.repeat);
+        award=findViewById(R.id.award);
 
         myGame.setVisibility(View.INVISIBLE);
         goButton.setVisibility(View.VISIBLE);
@@ -115,10 +115,10 @@ public class MainActivity extends AppCompatActivity {
         score=0;
         numberOfQuestions=0;
         timerText.setText("30");
-        grid.setVisibility(View.VISIBLE);
+        myGame.setVisibility(View.VISIBLE);
         scoreTextView.setText(Integer.toString(score)+"/"+Integer.toString(numberOfQuestions));
         newQuestion();
-        playAgain.setVisibility(View.INVISIBLE);
+        repeat.setVisibility(View.INVISIBLE);
         resultTextView.setText("");
 
         new CountDownTimer(30000, 1000){
@@ -131,19 +131,21 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                playAgain.setVisibility(View.VISIBLE);
+                repeat.setVisibility(View.VISIBLE);
                 timerText.setText("0"+"s");
-                grid.setVisibility(View.INVISIBLE);
+                myGame.setVisibility(View.INVISIBLE);
                 if(score>=25){
-                    resultTextView.setText("Exellent");
+                    award.setText("Excellent");
                 }else if(score>=20 && score<25){
-                    resultTextView.setText("Very Good");
+                    award.setText("Wonderful");
+                }else if(score>=15 && score<20){
+                    award.setText("Very Good");
                 }else if(score>=10 && score<15){
-                    resultTextView.setText("Good");
+                    award.setText("Good");
                 }else if(score>=5 && score<10){
-                    resultTextView.setText("Fair");
+                    award.setText("Fair");
                 }else if(score>=0 && score<5){
-                    resultTextView.setText("Poor");
+                    award.setText("Poor");
                 }
             }
         }.start();
